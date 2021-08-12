@@ -1,0 +1,107 @@
+body {
+	display: flex;
+	justify-content: center;
+}
+#gameBoard {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    position: relative;
+	width: 90vw;
+	height: 90vh;
+	border: 1px solid white;
+	background-color: black;
+	margin-top: 50px;
+}
+
+#space {
+	display: flex;
+	justify-content: center;
+    flex-direction: column;
+	width: 70vw;
+	height: 60vh;
+	border: 1px solid red;
+}
+
+.row1 {
+    margin-top: -155px;
+}
+.row1, .row2, .row3, .row4 {
+    display: flex;
+    justify-content: center;    
+    width: 70vw;
+    height: 20vh; 
+    margin-bottom: -190px;   
+}
+
+.alien, .alien2, .alien3, .alien4 {
+    display: flex;
+	justify-content: center;
+	/* border: 1px solid white; */
+	width: 70px;
+	height: 70px;
+    margin-right: 15px;    
+}
+
+.alienImg1 {
+width: 70px;
+height: 70px;
+}
+
+.alienImg2 {
+width: 70px;
+height: 70px;
+}
+
+#base {
+	display: flex;
+	justify-content: center;    
+	width: 70vw;
+	height: 30vh;
+	border: 1px solid green;
+}
+
+.barrier {
+	display: flex;
+	justify-content: center;
+	/* border: 1px solid white; */
+	width: 100px;
+	height: 100px;
+	margin-right: 200px;
+	margin-top: 150px;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+}
+
+.box {
+    background-color: green;
+    border-radius: 30px;
+    height: 5px;
+    width: 5px; 
+}
+
+.end {
+	margin-right: 0;
+}
+
+#ship {    
+    position: absolute;
+}
+
+.turret {
+    z-index: 1;
+	/* border: 1px solid white; */
+	width: 200px;
+	height: 110px;
+	margin-top: 280px;    
+}
+
+.tank {
+    width: 200px;
+    height: 110px;
+}
