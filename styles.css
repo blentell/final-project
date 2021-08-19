@@ -11,8 +11,19 @@ body {
 	width: 1600px;
 	height: 1200px;
 	border: 1px solid white;
-	background-color: black;
+	background: url(../img/background-black.png);
+	animation: scroll-background 5s linear infinite;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 	margin-top: 50px;
+}
+
+@keyframes scroll-background {
+	from {
+		background-position-y: 0px;
+	}
+	to {
+		background-position-y: 256px;
+	}
 }
 
 #space {
@@ -78,8 +89,9 @@ position: relative;
 	/* border: 1px solid white; */
 	width: 100px;
 	height: 100px;
-	margin-right: 200px;
+	margin-right: 170px;
 	margin-top: 150px;
+	
 }
 
 .row {
@@ -100,21 +112,30 @@ position: relative;
 }
 
 #ship {    
-    position: fixed;
-	
+	position: absolute;
+	margin-right: 100px;
+		
 }
 
-.turret {
-    
-	width: 200px;
-	height: 110px;
-	margin-top: 280px;    
+.turret {    
+	width: 120px;
+	height: 90px;
+	margin-top: 300px; 
+	position: fixed;   
 }
 
-.tank {
-    width: 200px;
-	z-index: -1;
-    height: 110px;
+.tank {	
+	width: 120px;
+	height: 90px;
 	position: fixed;
 	opacity: 70%;
+
 }
+
+.bullet {
+	width: 5px;
+	height: 5px;
+	background-color: white;
+	position: absolute;	
+}
+
