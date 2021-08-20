@@ -10,6 +10,26 @@ const bullets = document.querySelector("#bullets");
 const bullets2 = document.querySelector("#bullets2");
 const displayScore = document.querySelector("#score");
 const displayLives = document.querySelector("#lives");
+const alienLoad = document.querySelector('#aliens');
+
+tankLaser = new Audio("./sound/shoot.wav");
+tankLaser.volume = 0.2;
+// alienLaser = new Audio("./sound/sfx_laser2.ogg");
+gameOver = new Audio("./sound/sfx_lose.ogg");
+alienDeath = new Audio("./sound/invaderkilled.wav");
+alienDeath.volume = 0.2;
+lostLife = new Audio("./sound/explosion.wav");
+lostLife.volume = 0.2;
+alienMovement = new Audio("./sound/spaceinvaders1.mpeg");
+alienMovement.volume = 0.1;
+
+// TODO: Create splash page
+// TODO: Limit number of bullets per space click --- DONE
+// TODO: Figure out how to reset aliens for level completion
+// TODO: Implement high score system
+// TODO: Add music and sounds --- DONE
+
+let throttle;
 
 const gameState = {
 	leftPressed: false,
@@ -104,9 +124,14 @@ function updateScore() {
 // Track the tank lives
 let lives = 3;
 
+function endGame() {
+	alert("Game Over!");
+	gameOver.play();
+}
+
 function updateLives() {
-	if (lives === 0) {
-		alert("Game Over!");
+	if (lives <= 0) {
+		endGame();
 		reset();
 	}
 }
@@ -120,8 +145,9 @@ function reset() {
 let level = 1;
 
 function nextLevel() {
-	level + 1;
-	drawAliens();
+	level = level + 1;
+	alert(`Next level: ${level}`);
+	
 }
 
 function tankLives() {
@@ -131,24 +157,28 @@ function tankLives() {
 const tankWidth = 120;
 
 function updateTank() {
-  if (gameState.leftPressed) {
-    if (turret.left >= 10) {
-      turret.left = turret.left - 10;
-    }
-  }
-  if (gameState.rightPressed) {
-    if (turret.left <= 1490) {
-      turret.left = turret.left + 10;
-    }
-  }
+	if (gameState.leftPressed) {
+		if (turret.left >= 10) {
+			turret.left = turret.left - 5;
+		}
+	}
+	if (gameState.rightPressed) {
+		if (turret.left <= 1490) {
+			turret.left = turret.left + 5;
+		}
+	}
 	if (gameState.spacePressed) {
+		gameState.spacePressed = false;
 		bulletsArray.push({
 			left: turret.left + 45,
 			top: turret.top - 20,
 		}),
+			tankLaser.play();
 		alienBulletsArray.push({
-			left: aliens2[Math.floor(Math.random() * 17)].left + 50,
-			top: aliens2[Math.floor(Math.random() * 17)].top - 20,
+			left: aliens2[Math.floor(Math.random() * 16)].left + 50,
+			top: aliens2[Math.floor(Math.random() * 16)].top - 20,
+			left: aliens[Math.floor(Math.random() * 16)].left + 50,
+			top: aliens[Math.floor(Math.random() * 16)].top - 20,
 		});
 		drawBullets();
 	}
@@ -194,6 +224,7 @@ function drawAlienBullets() {
 	bullets2.innerHTML = "";
 	for (let i = 0; i < alienBulletsArray.length; i++) {
 		bullets2.innerHTML += `<div class='bullet2' style='left:${alienBulletsArray[i].left}px; top:${alienBulletsArray[i].top}px'></div>`;
+		// alienLaser.play();
 	}
 }
 
@@ -236,7 +267,7 @@ function drawAliens() {
 }
 
 // Assign a velocity for the alien movement
-let alienVelocity = 0.8 + (level - 1);
+let alienVelocity = 0.6 + (level - 1);
 // Make the aliens move
 function moveAliens() {
 	// Loop 1 for the first array
@@ -246,14 +277,13 @@ function moveAliens() {
 		}
 		if (aliens[i].left >= 1500) {
 			alienVelocity = Math.abs(alienVelocity) * -1;
-			aliens[i].top = aliens[i].top - 1;
 		}
 		if (aliens[i].top >= 1100) {
-			alert("GAME OVER!");
+			endGame();
 			reset();
 		}
 		aliens[i].left = aliens[i].left + alienVelocity;
-		aliens[i].top = aliens[i].top + 0.08;
+		aliens[i].top = aliens[i].top + 0.04;
 	}
 	// Loop 2 for the second array
 	for (let j = 0; j < aliens2.length; j++) {
@@ -264,21 +294,19 @@ function moveAliens() {
 			alienVelocity = Math.abs(alienVelocity) * -1;
 		}
 		if (aliens2[j].top >= 1100) {
-			alert("GAME OVER!");
+			endGame();
 			reset();
 		}
 		aliens2[j].left = aliens2[j].left + alienVelocity;
-		aliens2[j].top = aliens2[j].top + 0.08;
+		aliens2[j].top = aliens2[j].top + 0.04;
 	}
 }
 
 // Create collision detection
 function alienCollisionDetection() {
 	// Loop 1 for the first array of aliens
-	if (aliens.length === 0 && aliens2.length === 0) {
-		alert("Next Level!");
-		level = level + 1;
-		nextLevel();
+	if (aliens.length === 0 && aliens2.length === 0) {		
+		nextLevel();		
 	}
 	for (let alien = 0; alien < aliens.length; alien++) {
 		for (let bullet = 0; bullet < bulletsArray.length; bullet++) {
@@ -289,7 +317,8 @@ function alienCollisionDetection() {
 				bulletsArray[bullet].top >= aliens[alien].top
 			) {
 				aliens.splice(alien, 1);
-				bulletsArray.splice(bullet);
+				alienDeath.play();
+				bulletsArray.splice(bullet, 1);
 				score = score + 50;
 			}
 			if (bulletsArray[bullet].top <= 0) {
@@ -306,8 +335,9 @@ function alienCollisionDetection() {
 					bulletsArray[bullet].top >= aliens2[alien2].top
 				) {
 					aliens2.splice(alien2, 1);
+					alienDeath.play();
 					score = score + 25;
-					bulletsArray.splice(bullet);
+					bulletsArray.splice(bullet, 1);
 				}
 				if (bulletsArray[bullet].top <= 0) {
 					bulletsArray.splice(bullet, 1);
@@ -327,36 +357,21 @@ function tankCollisionDetection() {
 			alienBulletsArray[bullet].top <= turret.top + 110 &&
 			alienBulletsArray[bullet].top >= turret.top
 		) {
+			lostLife.play();
 			tank.style.opacity = "0";
 			alienBulletsArray.splice(bullet, 1);
 			lives = lives - 1;
 		}
-		if (alienBulletsArray[bullet].top >= 1200) {
+		if (alienBulletsArray[bullet].top >= 1150) {
 			alienBulletsArray.splice(bullet, 1);
 		}
 	}
 }
 
-// Create barrier collision detection
-// function barrierCollisionDetection() {
-// 	for (let barrier1 = 0; barrier1 < barrierArray.length; barrier1++) {
-// 		for (let bullet = 0; bullet < bulletsArray.length; bullet++) {
-// 			if (
-// 				bulletsArray[bullet].left >= barrierArray[barrier1].left &&
-// 				bulletsArray[bullet].left <= barrierArray[barrier1].left + 100 &&
-// 				bulletsArray[bullet].top <= barrierArray[barrier1].top + 100 &&
-// 				bulletsArray[bullet].top >= barrierArray[barrier1].top
-// 			) {
-// 				barrierArray.splice(barrier1, 1);
-// 				bulletsArray.splice(bullet, 1);
-// 			}
-// 		}
-// 	}
-// }
-
 // Create the repeating functions loop
 function spaceInvadersLoop() {
 	window.requestAnimationFrame(spaceInvadersLoop);
+	alienMovement.play();
 	updateTank();
 	updateScore();
 	tankLives();
@@ -376,3 +391,21 @@ spaceInvadersLoop();
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 window.requestAnimationFrame(spaceInvadersLoop);
+
+// ========================== Unused for now ===================================
+// Create barrier collision detection
+// function barrierCollisionDetection() {
+// 	for (let barrier1 = 0; barrier1 < barrierArray.length; barrier1++) {
+// 		for (let bullet = 0; bullet < bulletsArray.length; bullet++) {
+// 			if (
+// 				bulletsArray[bullet].left >= barrierArray[barrier1].left &&
+// 				bulletsArray[bullet].left <= barrierArray[barrier1].left + 100 &&
+// 				bulletsArray[bullet].top <= barrierArray[barrier1].top + 100 &&
+// 				bulletsArray[bullet].top >= barrierArray[barrier1].top
+// 			) {
+// 				barrierArray.splice(barrier1, 1);
+// 				bulletsArray.splice(bullet, 1);
+// 			}
+// 		}
+// 	}
+// }
