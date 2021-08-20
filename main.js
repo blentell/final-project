@@ -43,8 +43,8 @@ const turret = {
 	top: 1100,
 };
 
-const bulletsArray = [];
-const alienBulletsArray = [];
+let bulletsArray = [];
+let alienBulletsArray = [];
 
 let aliens = [
 	// Row 1 of aliens
@@ -147,8 +147,11 @@ function reset() {
 let level = 1;
 
 function nextLevel() {
-	level = level + 1;	
+	level = level + 1;
+	alienVelocity++;
 	alert(`Next level: ${level}`);
+	alienBulletsArray = [];
+	bulletsArray = [];
 	aliens = [
 		// Row 1 of aliens
 		{ left: 350, top: 50 },
@@ -193,8 +196,7 @@ function nextLevel() {
 		{ left: 950, top: 380 },
 		{ left: 1050, top: 380 },
 		{ left: 1150, top: 380 },
-	];
-		
+	];		
 }
 
 function tankLives() {
@@ -220,17 +222,23 @@ function updateTank() {
 			left: turret.left + 45,
 			top: turret.top - 20,
 		}),
-			tankLaser.play();
+			tankLaser.play();		
+			alienBulletsArray.push({
+				
+				left: aliens2[Math.floor(Math.random() * 16)].left + 50,
+				top: aliens2[Math.floor(Math.random() * 16)].top - 20,
+			});
+			drawAlienBullets();		
 		alienBulletsArray.push({
-			left: aliens2[Math.floor(Math.random() * 16)].left + 50,
-			top: aliens2[Math.floor(Math.random() * 16)].top - 20,
 			left: aliens[Math.floor(Math.random() * 16)].left + 50,
 			top: aliens[Math.floor(Math.random() * 16)].top - 20,
 		});
-		drawBullets();
+			drawAlienBullets();
+			drawBullets();
+		}
+		drawTank();
 	}
-	drawTank();
-}
+
 
 // Add the ability to move the tank and shoot
 function onKeyDown(event) {
@@ -285,7 +293,7 @@ function moveBullets() {
 // Move the alien bullets on the screen
 function moveAlienBullets() {
 	for (let i = 0; i < alienBulletsArray.length; i++) {
-		alienBulletsArray[i].top = alienBulletsArray[i].top + 2;
+		alienBulletsArray[i].top = alienBulletsArray[i].top + 2 + (level/2);
 	}
 }
 
@@ -314,7 +322,7 @@ function drawAliens() {
 }
 
 // Assign a velocity for the alien movement
-let alienVelocity = 0.6 + (level - 1);
+let alienVelocity = 1;
 // Make the aliens move
 function moveAliens() {
 	// Loop 1 for the first array
@@ -330,7 +338,7 @@ function moveAliens() {
 			reset();
 		}
 		aliens[i].left = aliens[i].left + alienVelocity;
-		aliens[i].top = aliens[i].top + 0.04;
+		aliens[i].top = aliens[i].top + 0.08;
 	}
 	// Loop 2 for the second array
 	for (let j = 0; j < aliens2.length; j++) {
@@ -345,7 +353,7 @@ function moveAliens() {
 			reset();
 		}
 		aliens2[j].left = aliens2[j].left + alienVelocity;
-		aliens2[j].top = aliens2[j].top + 0.04;
+		aliens2[j].top = aliens2[j].top + 0.08;
 	}
 }
 
