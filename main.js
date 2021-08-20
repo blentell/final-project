@@ -147,7 +147,7 @@ function reset() {
 let level = 1;
 
 function nextLevel() {
-	level = level + 1;
+	level = level + 1;	
 	alert(`Next level: ${level}`);
 	aliens = [
 		// Row 1 of aliens
