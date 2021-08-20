@@ -9,6 +9,7 @@ const barrier4 = document.querySelector(".barrier4");
 const bullets = document.querySelector("#bullets");
 const bullets2 = document.querySelector("#bullets2");
 const displayScore = document.querySelector("#score");
+const displayLevel = document.querySelector('#level');
 const displayLives = document.querySelector("#lives");
 const alienLoad = document.querySelector('#aliens');
 
@@ -25,7 +26,7 @@ alienMovement.volume = 0.1;
 
 // TODO: Create splash page
 // TODO: Limit number of bullets per space click --- DONE
-// TODO: Figure out how to reset aliens for level completion
+// TODO: Figure out how to reset aliens for level completion --- DONE
 // TODO: Implement high score system
 // TODO: Add music and sounds --- DONE
 
@@ -45,7 +46,7 @@ const turret = {
 const bulletsArray = [];
 const alienBulletsArray = [];
 
-const aliens = [
+let aliens = [
 	// Row 1 of aliens
 	{ left: 350, top: 50 },
 	{ left: 450, top: 50 },
@@ -68,7 +69,7 @@ const aliens = [
 	{ left: 1150, top: 270 },
 ];
 
-const aliens2 = [
+let aliens2 = [
 	// Row 2 of aliens
 	{ left: 350, top: 160 },
 	{ left: 450, top: 160 },
@@ -119,6 +120,7 @@ let score = 0;
 
 function updateScore() {
 	displayScore.innerHTML = `Score: ${score}`;
+	displayLevel.innerHTML = `Level: ${level}`;
 }
 
 // Track the tank lives
@@ -147,7 +149,52 @@ let level = 1;
 function nextLevel() {
 	level = level + 1;
 	alert(`Next level: ${level}`);
-	
+	aliens = [
+		// Row 1 of aliens
+		{ left: 350, top: 50 },
+		{ left: 450, top: 50 },
+		{ left: 550, top: 50 },
+		{ left: 650, top: 50 },
+		{ left: 750, top: 50 },
+		{ left: 850, top: 50 },
+		{ left: 950, top: 50 },
+		{ left: 1050, top: 50 },
+		{ left: 1150, top: 50 },
+		// Row 3 of aliens
+		{ left: 350, top: 270 },
+		{ left: 450, top: 270 },
+		{ left: 550, top: 270 },
+		{ left: 650, top: 270 },
+		{ left: 750, top: 270 },
+		{ left: 850, top: 270 },
+		{ left: 950, top: 270 },
+		{ left: 1050, top: 270 },
+		{ left: 1150, top: 270 },
+	];
+
+	aliens2 = [
+		// Row 2 of aliens
+		{ left: 350, top: 160 },
+		{ left: 450, top: 160 },
+		{ left: 550, top: 160 },
+		{ left: 650, top: 160 },
+		{ left: 750, top: 160 },
+		{ left: 850, top: 160 },
+		{ left: 950, top: 160 },
+		{ left: 1050, top: 160 },
+		{ left: 1150, top: 160 },
+		// Row 4 of aliens
+		{ left: 350, top: 380 },
+		{ left: 450, top: 380 },
+		{ left: 550, top: 380 },
+		{ left: 650, top: 380 },
+		{ left: 750, top: 380 },
+		{ left: 850, top: 380 },
+		{ left: 950, top: 380 },
+		{ left: 1050, top: 380 },
+		{ left: 1150, top: 380 },
+	];
+		
 }
 
 function tankLives() {

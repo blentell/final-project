@@ -129,7 +129,15 @@ body {
 		top: 800px;
 	}
 
-	#score {
+	#score{
+		display: flex;
+		font-size: 30px;
+		font-weight: 900;
+		color: red;
+		margin-right: 150px;		
+	}
+
+	#level {
 		font-size: 30px;
 		font-weight: 900;
 		color: red;
