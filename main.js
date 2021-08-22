@@ -104,7 +104,7 @@ let lives = 3;
 
 function endGame() {
 	gameOver.play();
-	location.href = './gameover.html';
+	location.href = '/gameover.html';
 }
 
 function updateLives() {
