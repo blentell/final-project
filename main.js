@@ -9,10 +9,9 @@ const barrier4 = document.querySelector(".barrier4");
 const bullets = document.querySelector("#bullets");
 const bullets2 = document.querySelector("#bullets2");
 const displayScore = document.querySelector("#score");
-const displayLevel = document.querySelector('#level');
+const displayLevel = document.querySelector("#level");
 const displayLives = document.querySelector("#lives");
-const alienLoad = document.querySelector('#aliens');
-
+const alienLoad = document.querySelector("#aliens");
 
 tankLaser = new Audio("./sound/shoot.wav");
 tankLaser.volume = 0.2;
@@ -104,12 +103,12 @@ let lives = 3;
 
 function endGame() {
 	gameOver.play();
-	location.href = '/gameover.html';
+	location.href = "/gameover.html";
 }
 
 function updateLives() {
 	if (lives <= 0) {
-		endGame();		
+		endGame();
 	}
 }
 
@@ -171,7 +170,7 @@ function nextLevel() {
 		{ left: 950, top: 380 },
 		{ left: 1050, top: 380 },
 		{ left: 1150, top: 380 },
-	];	
+	];
 }
 
 function tankLives() {
@@ -197,23 +196,21 @@ function updateTank() {
 			left: turret.left + 45,
 			top: turret.top - 20,
 		}),
-			tankLaser.play();		
-			alienBulletsArray.push({
-				
-				left: aliens2[Math.floor(Math.random() * 16)].left + 50,
-				top: aliens2[Math.floor(Math.random() * 16)].top - 20,
-			});
-			drawAlienBullets();		
+			tankLaser.play();
+		alienBulletsArray.push({
+			left: aliens2[Math.floor(Math.random() * 16)].left + 50,
+			top: aliens2[Math.floor(Math.random() * 16)].top - 20,
+		});
+		drawAlienBullets();
 		alienBulletsArray.push({
 			left: aliens[Math.floor(Math.random() * 16)].left + 50,
 			top: aliens[Math.floor(Math.random() * 16)].top - 20,
 		});
-			drawAlienBullets();
-			drawBullets();
-		}
-		drawTank();
+		drawAlienBullets();
+		drawBullets();
 	}
-
+	drawTank();
+}
 
 // Add the ability to move the tank and shoot
 function onKeyDown(event) {
@@ -268,7 +265,7 @@ function moveBullets() {
 // Move the alien bullets on the screen
 function moveAlienBullets() {
 	for (let i = 0; i < alienBulletsArray.length; i++) {
-		alienBulletsArray[i].top = alienBulletsArray[i].top + 2 + (level/2);
+		alienBulletsArray[i].top = alienBulletsArray[i].top + 2 + level / 2;
 	}
 }
 
@@ -297,7 +294,7 @@ function drawAliens() {
 }
 
 // Assign a velocity for the alien movement
-let alienVelocity = .5;
+let alienVelocity = 0.5;
 // Make the aliens move
 function moveAliens() {
 	// Loop 1 for the first array
@@ -309,7 +306,7 @@ function moveAliens() {
 			alienVelocity = Math.abs(alienVelocity) * -1;
 		}
 		if (aliens[i].top >= 1100) {
-			endGame();			
+			endGame();
 		}
 		aliens[i].left = aliens[i].left + alienVelocity;
 		aliens[i].top = aliens[i].top + 0.08;
@@ -323,7 +320,7 @@ function moveAliens() {
 			alienVelocity = Math.abs(alienVelocity) * -1;
 		}
 		if (aliens2[j].top >= 1100) {
-			endGame();			
+			endGame();
 		}
 		aliens2[j].left = aliens2[j].left + alienVelocity;
 		aliens2[j].top = aliens2[j].top + 0.08;
@@ -333,15 +330,15 @@ function moveAliens() {
 // Create collision detection
 function alienCollisionDetection() {
 	// Loop 1 for the first array of aliens
-	if (aliens.length === 0 && aliens2.length === 0) {		
-		nextLevel();		
+	if (aliens.length === 0 && aliens2.length === 0) {
+		nextLevel();
 	}
 	for (let alien = 0; alien < aliens.length; alien++) {
 		for (let bullet = 0; bullet < bulletsArray.length; bullet++) {
 			if (
 				bulletsArray[bullet].left >= aliens[alien].left &&
-				bulletsArray[bullet].left <= aliens[alien].left + 100 &&
-				bulletsArray[bullet].top <= aliens[alien].top + 100 &&
+				bulletsArray[bullet].left <= aliens[alien].left + 99 &&
+				bulletsArray[bullet].top <= aliens[alien].top + 99 &&
 				bulletsArray[bullet].top >= aliens[alien].top
 			) {
 				aliens.splice(alien, 1);
@@ -358,8 +355,8 @@ function alienCollisionDetection() {
 			for (let bullet = 0; bullet < bulletsArray.length; bullet++) {
 				if (
 					bulletsArray[bullet].left >= aliens2[alien2].left &&
-					bulletsArray[bullet].left <= aliens2[alien2].left + 100 &&
-					bulletsArray[bullet].top <= aliens2[alien2].top + 100 &&
+					bulletsArray[bullet].left <= aliens2[alien2].left + 99 &&
+					bulletsArray[bullet].top <= aliens2[alien2].top + 99 &&
 					bulletsArray[bullet].top >= aliens2[alien2].top
 				) {
 					aliens2.splice(alien2, 1);
@@ -437,7 +434,6 @@ window.requestAnimationFrame(spaceInvadersLoop);
 // 		}
 // 	}
 // }
-
 
 // // Create barriers
 // const cols = 25;
