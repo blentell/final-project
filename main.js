@@ -13,6 +13,7 @@ const displayLevel = document.querySelector('#level');
 const displayLives = document.querySelector("#lives");
 const alienLoad = document.querySelector('#aliens');
 
+
 tankLaser = new Audio("./sound/shoot.wav");
 tankLaser.volume = 0.2;
 // alienLaser = new Audio("./sound/sfx_laser2.ogg");
@@ -24,13 +25,11 @@ lostLife.volume = 0.2;
 alienMovement = new Audio("./sound/spaceinvaders1.mpeg");
 alienMovement.volume = 0.1;
 
-// TODO: Create splash page
+// TODO: Create splash page --- DONE
 // TODO: Limit number of bullets per space click --- DONE
 // TODO: Figure out how to reset aliens for level completion --- DONE
 // TODO: Implement high score system
 // TODO: Add music and sounds --- DONE
-
-let throttle;
 
 const gameState = {
 	leftPressed: false,
@@ -92,29 +91,6 @@ let aliens2 = [
 	{ left: 1150, top: 380 },
 ];
 
-// // Create barriers
-// const cols = 25;
-// const rows = 25;
-// const barriers = document.querySelectorAll(".barriers");
-
-// // Add rows of divs
-// for (const barrier of barriers) {
-// 	for (let i = 0; i < rows; i++) {
-// 		const row = document.createElement("div");
-// 		row.className = "row";
-
-// 		// Add boxes of divs for each row
-// 		for (let j = 0; j < cols; j++) {
-// 			const box = document.createElement("div");
-// 			box.className = "box";
-// 			// Add the box to the row
-// 			row.appendChild(box);
-// 		}
-// 		// Add each row of boxes to the body of the document
-// 		barrier.appendChild(row);
-// 	}
-// }
-
 // Track the score
 let score = 0;
 
@@ -127,20 +103,19 @@ function updateScore() {
 let lives = 3;
 
 function endGame() {
-	alert("Game Over!");
 	gameOver.play();
+	location.href = '/gameOver.html';
 }
 
 function updateLives() {
 	if (lives <= 0) {
-		endGame();
-		reset();
+		endGame();		
 	}
 }
 
 function reset() {
 	lives = 3;
-	location.reload();
+	location.href = "./index.html";
 }
 
 // Set the game level
@@ -196,7 +171,7 @@ function nextLevel() {
 		{ left: 950, top: 380 },
 		{ left: 1050, top: 380 },
 		{ left: 1150, top: 380 },
-	];		
+	];	
 }
 
 function tankLives() {
@@ -322,7 +297,7 @@ function drawAliens() {
 }
 
 // Assign a velocity for the alien movement
-let alienVelocity = 1;
+let alienVelocity = .5;
 // Make the aliens move
 function moveAliens() {
 	// Loop 1 for the first array
@@ -334,8 +309,7 @@ function moveAliens() {
 			alienVelocity = Math.abs(alienVelocity) * -1;
 		}
 		if (aliens[i].top >= 1100) {
-			endGame();
-			reset();
+			endGame();			
 		}
 		aliens[i].left = aliens[i].left + alienVelocity;
 		aliens[i].top = aliens[i].top + 0.08;
@@ -349,8 +323,7 @@ function moveAliens() {
 			alienVelocity = Math.abs(alienVelocity) * -1;
 		}
 		if (aliens2[j].top >= 1100) {
-			endGame();
-			reset();
+			endGame();			
 		}
 		aliens2[j].left = aliens2[j].left + alienVelocity;
 		aliens2[j].top = aliens2[j].top + 0.08;
@@ -462,5 +435,29 @@ window.requestAnimationFrame(spaceInvadersLoop);
 // 				bulletsArray.splice(bullet, 1);
 // 			}
 // 		}
+// 	}
+// }
+
+
+// // Create barriers
+// const cols = 25;
+// const rows = 25;
+// const barriers = document.querySelectorAll(".barriers");
+
+// // Add rows of divs
+// for (const barrier of barriers) {
+// 	for (let i = 0; i < rows; i++) {
+// 		const row = document.createElement("div");
+// 		row.className = "row";
+
+// 		// Add boxes of divs for each row
+// 		for (let j = 0; j < cols; j++) {
+// 			const box = document.createElement("div");
+// 			box.className = "box";
+// 			// Add the box to the row
+// 			row.appendChild(box);
+// 		}
+// 		// Add each row of boxes to the body of the document
+// 		barrier.appendChild(row);
 // 	}
 // }
