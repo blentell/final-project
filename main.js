@@ -294,7 +294,7 @@ function drawAliens() {
 }
 
 // Assign a velocity for the alien movement
-let alienVelocity = 0.5;
+let alienVelocity = 1;
 // Make the aliens move
 function moveAliens() {
 	// Loop 1 for the first array
