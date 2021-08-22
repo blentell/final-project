@@ -103,7 +103,11 @@ let lives = 3;
 
 function endGame() {
 	gameOver.play();
+<<<<<<< HEAD
 	location.href = "/gameover.html";
+=======
+	location.href = './gameover.html';
+>>>>>>> 716ff37477119b5ae4706b356e5dbe7e93707731
 }
 
 function updateLives() {
